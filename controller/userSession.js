@@ -6,9 +6,9 @@ const router = express.Router();
 router.post('/login', (req, resp) => {
     const {username, password} = req.body;
     
-    const consulta =   `SELECT idUsuario, usuario, contraseña, nombre, apellidoP, apellidoM 
+    const consulta =   `SELECT idUsuario, usuario, contrasena, nombre, apellidoPaterno, apellidoMaterno 
                         FROM usuarios 
-                        WHERE usuario = sha1(?) AND contraseña = sha1(?);`;
+                        WHERE usuario = sha1(?) AND contrasena = sha1(?);`;
 
     pool.query(consulta, [username, password], (error, resultados) => {
         
