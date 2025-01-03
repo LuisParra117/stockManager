@@ -1,3 +1,25 @@
+<script>
+
+    async function checkAuthentication() {
+
+        try {
+            const response = await fetch('/isAuthenticated');
+            const data = await response.json();
+
+            if (!data.authenticated) {
+                window.location.href = '/index.html';
+            }
+
+        } catch (error) {
+            console.error('Error al verificar autenticación:', error);
+            window.location.href = '/index.html';
+        }
+
+    }
+
+    checkAuthentication();
+</script>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -6,6 +28,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home</title>
+        <link rel="stylesheet" href="/assets/css/styleHome.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
         <script src="assets/css/sweetalert.css"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
@@ -16,6 +39,135 @@
     
     <body>
         
+        <div class = "fondo">
+            
+            <div class = "content">
+                <img src  = "/assets/img/logoStockManager.png" alt = "Logo medicaPro" width = "300" height = "300">
+            </div>
+
+        </div>
+
+        <nav>
+
+            <ul class =  "menuHorizontal">
+
+                <li>
+                    <a href="#Catalogos">Catálogos</a>
+
+                    <ul class = "menuCatalogos">
+                        <li><a href = "#products" onclick="cargaContenido('catMedic.html')">Productos</a></li>
+                        <li><a href = "#clients" onclick="cargaContenido('catPatient.html')">Clientes</a></li>
+                        <li><a href = "#provider" onclick="cargaContenido('catOffice.html')">Proveedores</a></li>
+                        <li><a href = "#user" onclick="cargaContenido('catUser.html')">Usuarios</a></li>
+                    </ul>
+
+                </li>
+
+                <li>
+                    <a href="#Movimientos">Movimientos</a>
+
+                    <ul class = "menuMovimientos">
+                        <li><a href = "#sales" onclick="cargaContenido('medicalAppointment.html')">Ventas</a></li>
+                        <li><a href = "#entryes" onclick="cargaContenido('medicalAppointment.html')">Compras</a></li>
+                    </ul>
+
+                </li>
+
+                <li>
+                    <a href="#reports">Reportes</a>
+
+                    <ul class = "menuReportes">
+                        <li><a href = "#rptProducts" onclick="cargaContenido('rptMedicalApp.html')">Reporte Productos</a></li>
+                        <li><a href = "#rptClients" onclick="cargaContenido('rptMedic.html')">Reporte Clientes</a></li>
+                        <li><a href = "#rptProviders" onclick="cargaContenido('rptPatient.html')">Reporte Proveedores</a></li>
+                        <li><a href = "#rptSales" onclick="cargaContenido('rptPatient.html')">Reporte Ventas</a></li>
+                        <li><a href = "#rptEntryes" onclick="cargaContenido('rptPatient.html')">Reporte Compras</a></li>
+                    </ul>
+
+                </li>
+
+                <li>
+                    <a href="#Informacion">Información</a>
+
+                    <ul class = "menuInformacion">
+                        <li><a href = "#acercaDe" id = "acercaDe" >Acerca de</a></li>
+                    </ul>
+
+                </li>
+
+                <li>
+                    <a href="#Opciones">Opciones</a>
+
+                    <ul class = "MenuOpciones">
+                        <li><a id = "btnCerrarSesion" href = "#btnCerrarSesion" >Cerrar Sesion</a></li>
+                    </ul>
+
+                </li>
+
+                <!-- <p style = "text-align: center;" >Bienvenido <?php echo $_SESSION['nombreUsuario'] ?></p> -->
+            </ul>
+
+        </nav>
+
+        <div id="contenido" class = "contenido">
+        <!-- Aquí se cargará el contenido de la página -->
+        </div>
+
     </body>
 
 </html>
+
+<script>
+
+    function cargaContenido(url){
+
+       $.get(url, function(data) {
+            $('#contenido').html(data);
+        }).fail(function(xhr, status, error) {
+            console.error('Error al cargar la página:', error);
+        });
+
+    }
+
+    $(function(){
+
+        $('#acercaDe').click(function(){
+
+            Swal.fire({
+                html: '<div style="text-align: justify;">MedicaPro es un sistema para la gestion de citas medicas del hospital privado<br><br>Desarrollador: Luis Gilberto Parra Lopez</div>',
+                icon: 'info',
+                title: 'Acerca De',
+                confirmButtonColor: '#3085d6',
+                backdrop: false,
+                confirmButtonText: 'OK'
+            });
+
+        });
+
+        $('#btnCerrarSesion').click(function(){
+
+            Swal.fire({
+                title: "¿Deseas cerrar sesión?",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Confirmar"
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    $.post('/logout', {}, function(resp){
+                        window.location.reload();
+                    });
+
+                }
+
+            });
+            
+        });
+
+    });
+
+</script>

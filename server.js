@@ -27,7 +27,9 @@ app.get('/', (req, res) => {
 const userRoutes = require('./controller/userSession.js'); // se tomaran las rutas del archivo invocado 
 app.use('/', userRoutes);
 
+const HOST = '0.0.0.0'; // Permite acceso desde cualquier IP
+
 // Iniciar el servidor
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
+  console.log(`Servidor corriendo en http://${HOST}:${PORT}`);
 });
