@@ -2,7 +2,6 @@ body{
     margin: 0px;
     padding: 0px;
     font-family: arial;
-    /* background: linear-gradient(150deg, #929A95, #5690A0, #F17F93, #929A95); */
     background-image: radial-gradient(circle at 50% -20.71%, #a7deff 0, #6c90d8 50%, #38496b 100%);
     height: 100vh;
 }
@@ -16,6 +15,7 @@ body{
 .imagen {
     width: 50%; 
     height: auto;
+    max-width: 100%; /* Agregado para que no sobrepase el ancho de la pantalla */
 }
 
 .formulario{
@@ -23,19 +23,22 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 400px;
+    width: 80%; /* Cambiado a 80% para que se adapte a diferentes tamaños de pantalla */
+    max-width: 400px; /* Agregado para que no sobrepase los 400px */
     background: white;
     border-radius: 10px;
+    padding: 20px; /* Agregado para dar algo de espacio entre el contenido y el borde */
+    box-sizing: border-box; /* Agregado para que el padding no afecte el ancho */
 }
 
 .formulario h1{
     text-align: center;
     padding: 0 0 20px 0;
-    border-bottom: 1px, solid silver;
+    border-bottom: 1px solid silver; /* Corregido el error de sintaxis */
 }
 
 .formulario form{
-    padding: 0 40px;
+    padding: 0 20px; /* Cambiado a 20px para que se adapte a diferentes tamaños de pantalla */
     box-sizing: border-box;
 }
 
@@ -98,7 +101,7 @@ form .password{
     position: absolute;
     top: 40px;
     left: 0px;
-    width: 100%;
+    width: 0%; /* Cambiado a 0% para que se adapte a diferentes tamaños de pantalla */
     height: 2px;
     background: #000000;
     transition: 0.5s;
@@ -109,7 +112,7 @@ form .password{
     position: absolute;
     top: 40px;
     left: 0px;
-    width: 100%;
+    width: 0%; /* Cambiado a 0% para que se adapte a diferentes tamaños de pantalla */
     height: 2px;
     background: #000000;
     transition: 0.5s;
@@ -141,4 +144,23 @@ form .password{
     border: none; 
     cursor: pointer; 
     border-radius: 5px;   
+}
+
+/* Agregado para que se adapte a diferentes tamaños de pantalla */
+@media only screen and (max-width: 768px) {
+    .formulario {
+        width: 90%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .formulario {
+        width: 95%;
+    }
+    .formulario form {
+        padding: 0 10px;
+    }
+    .btnLogin {
+        padding: 5px 10px;
+    }
 }
