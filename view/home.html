@@ -105,7 +105,7 @@
 
                 </li>
                 
-                <p id ="lblWelcome" style = "text-align: center;" >hola</p>    
+                <p id ="lblWelcome" style = "text-align: center;" ></p>    
 
                 <script>
 
@@ -114,11 +114,10 @@
                             if (!response.ok) {
                                 throw new Error('Usuario no autenticado o error en el servidor');
                             }
-                            
+
                             return response.json();
                         })
                         .then(data => {
-                            // Actualiza el contenido del HTML con los datos obtenidos
                             document.getElementById('lblWelcome').textContent = `Bienvenido ${data.nombre} ${data.apellidoPaterno}`;
                         })
                         .catch(error => {
