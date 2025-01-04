@@ -114,6 +114,7 @@
                             if (!response.ok) {
                                 throw new Error('Usuario no autenticado o error en el servidor');
                             }
+                            
                             return response.json();
                         })
                         .then(data => {
