@@ -18,6 +18,7 @@
     }
 
     checkAuthentication();
+
 </script>
 
 <!DOCTYPE html>
@@ -42,7 +43,7 @@
         <div class = "fondo">
             
             <div class = "content">
-                <img src  = "/assets/img/logoStockManager.png" alt = "Logo medicaPro" width = "300" height = "300">
+                <img src  = "/assets/img/logo2.png" alt = "Logo stockmanager" width = "300" height = "300">
             </div>
 
         </div>
@@ -103,8 +104,29 @@
                     </ul>
 
                 </li>
+                
+                <p id ="lblWelcome" style = "text-align: center;" >hola</p>    
 
-                <!-- <p style = "text-align: center;" >Bienvenido <?php echo $_SESSION['nombreUsuario'] ?></p> -->
+                <script>
+
+                    fetch('/getUserData')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Usuario no autenticado o error en el servidor');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Actualiza el contenido del HTML con los datos obtenidos
+                            document.getElementById('lblWelcome').textContent = `Bienvenido ${data.nombre} ${data.apellidoPaterno}`;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            document.body.innerHTML = '<p>Error al cargar los datos del usuario.</p>';
+                        });
+
+                </script>
+
             </ul>
 
         </nav>
@@ -134,7 +156,9 @@
         $('#acercaDe').click(function(){
 
             Swal.fire({
-                html: '<div style="text-align: justify;">MedicaPro es un sistema para la gestion de citas medicas del hospital privado<br><br>Desarrollador: Luis Gilberto Parra Lopez</div>',
+                html: `<div style="text-align: justify;">StockManager es un sistema para controlar las entradas y salidas de productos<br><br>
+                        Desarrollador: Luis Gilberto Parra Lopez<br>
+                        Email: luisparradev@proton.me</div>`,
                 icon: 'info',
                 title: 'Acerca De',
                 confirmButtonColor: '#3085d6',

@@ -19,7 +19,7 @@ body{
     transform: translate(-50%, -50%);
     background: white;
     border-radius: 10px;
-    background-color:rgba(225, 209, 209, 0.45);    
+    background-color: transparent;    
 }
 
 .fondo img {
@@ -169,4 +169,8 @@ li a:hover {
 	color: white;
 	text-decoration: none;
 	padding: 15px 15px 15px 20px;
+}
+
+.lblWelcome {
+	text-align: left;
 }

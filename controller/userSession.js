@@ -18,9 +18,20 @@ router.post('/login', (req, resp) => {
             return resp.send('Error en el servidor');
         }
     
+        
+
         if (resultados.length > 0) {
             req.session.isAuthenticated = true;
-            req.session.user = resultados[0]; //pendiente
+            const usuario = resultados[0];
+            
+            req.session.user = {
+                id: usuario.idUsuario,
+                username: usuario.usuario,
+                nombre: usuario.nombre,
+                apellidoPaterno: usuario.apellidoPaterno,
+                apellidoMaterno: usuario.apellidoMaterno,
+            };
+
             resp.send('success'); //Credenciales correctas
         } else {
             resp.send('error'); //Credenciales incorrectas
@@ -53,5 +64,16 @@ router.get('/isAuthenticated', (req, resp) => {
     }
 
 });
+
+router.get('/getUserData', (req, resp) => {
+
+    if (req.session.isAuthenticated) {
+        resp.json(req.session.user);
+    } else {
+        resp.status(401).json({ error: 'Usuario no autenticado' });
+    }
+
+});
+
 
 module.exports = router; //Exporta el enrutador
