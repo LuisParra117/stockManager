@@ -24,10 +24,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const userRoutes = require('./controller/userSession.js'); // se tomaran las rutas del archivo invocado 
+const userRoutes = require('./controller/userSession.js'); 
 app.use('/', userRoutes);
 
-const HOST = '0.0.0.0'; // Permite acceso desde cualquier IP
+const HOST = '0.0.0.0';
 
 // Iniciar el servidor
 app.listen(PORT, () => {
