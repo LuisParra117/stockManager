@@ -60,7 +60,7 @@ li a:hover {
 	position: absolute;
 	display: none;
 	list-style: none;
-	width: fit-content;
+	width: 120px;
 	background-color: rgba(0, 0, 0, .5);
 }
 
@@ -83,7 +83,7 @@ li a:hover {
 	position: absolute;
 	display: none;
 	list-style: none;
-	width: fit-content;
+	width: 100px;
 	background-color: rgba(0, 0, 0, .5);
 }
 
@@ -106,7 +106,7 @@ li a:hover {
 	position: absolute;
 	display: none;
 	list-style: none;
-	width: fit-content;
+	width: 190px;
 	background-color: rgba(0, 0, 0, .5);
 }
 
