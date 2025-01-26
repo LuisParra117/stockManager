@@ -148,9 +148,9 @@
     }
 
     .window #txtSku,
-    .window .btnSearchproduct {
+    .window .btnSearchProduct {
         width: 100%;
         border-radius: 5px;
     }
-    
+
 }
