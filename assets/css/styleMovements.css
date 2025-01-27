@@ -1,0 +1,493 @@
+
+/*Ventana de Ventas*/
+.window * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Ventana emergente */
+.window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.window .catalog {
+    position: relative;
+    background-color: #f8e9e9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+}
+
+.window .catalog h1 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.window .btnCloseSales {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.window .btnCloseSales:hover {
+    background-color: #e63939;
+}
+
+.window .form-group {
+    display: flex;
+    align-items: stretch; /* Alinea los elementos verticalmente */
+    margin-bottom: 15px; 
+    gap: 10px; 
+}
+
+.window #txtClient {
+    flex: 7; /* Ocupa el 70% del espacio */
+    padding: 10px;
+    height: 42px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s;
+    line-height: normal; /* Asegura que el texto no desborde */
+}
+
+.window #txtClient:focus {
+    border-color: #5b9bd5;
+}
+
+.window .btnAccept {
+    flex: 3; /* Ocupa el 30% del espacio */
+    height: 42px;
+    padding: 0; 
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    min-width: 80px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.window .btnAccept:hover {
+    background-color: #0056b3;
+}
+
+.window .table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 15px;
+}
+
+.window table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.window th, .window td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.window th {
+    background-color: #007bff;
+    color: white;
+}
+
+.window input[type="text"],
+.window input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+}
+
+.window input[type="text"]:focus,
+.window input[type="number"]:focus {
+    border-color: #5b9bd5;
+}
+
+.window .btnAddRow {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.window .btnAddRow:hover {
+    background-color: #218838;
+}
+
+.window .total {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#saleTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#saleTable th,
+#saleTable td {
+    border: 1px solid #ccc;
+    /* padding: 8px; */
+    text-align: center;
+}
+
+#saleTable th:nth-child(2), /* Descripción */
+#saleTable td:nth-child(2) {
+    width: 40%; /* Ajusta este valor según el diseño deseado */
+}
+
+#saleTable th:nth-child(1), /* Producto */
+#saleTable td:nth-child(1){
+    width: 20%;
+}
+
+#saleTable th:nth-child(3), /* Cantidad */
+#saleTable td:nth-child(3),
+#saleTable th:nth-child(4), /* Precio */
+#saleTable td:nth-child(4),
+#saleTable th:nth-child(5), /* Importe */
+#saleTable td:nth-child(5),
+#saleTable th:nth-child(6), /* Acciones */
+#saleTable td:nth-child(6) {
+    width: 12%; /* Distribuye el resto entre las demás columnas */
+}
+
+.window .action-buttons {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.window .action-buttons button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.window .action-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.window .action-buttons button.delete {
+    background-color: #ff4d4d;
+}
+
+.window .action-buttons button.delete:hover {
+    background-color: #e63939;
+}
+
+.window .btnSaveSale {
+    width: 30%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.window .btnSaveSale:hover {
+    background-color: #1e7e34;
+}
+
+/*Ventana de Compras*/
+.window * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Ventana emergente */
+.window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.window .catalog {
+    position: relative;
+    background-color: #f8e9e9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+}
+
+.window .catalog h1 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.window .btnCloseEntryes {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.window .btnCloseEntryes:hover {
+    background-color: #e63939;
+}
+
+.window .form-group {
+    display: flex;
+    align-items: stretch; /* Alinea los elementos verticalmente */
+    margin-bottom: 15px; 
+    gap: 10px; 
+}
+
+.window #txtProvider {
+    flex: 7; /* Ocupa el 70% del espacio */
+    padding: 10px;
+    height: 42px; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s;
+    line-height: normal; /* Asegura que el texto no desborde */
+}
+
+.window #txtProvider:focus {
+    border-color: #5b9bd5;
+}
+
+.window .btnAccept {
+    flex: 3; /* Ocupa el 30% del espacio */
+    height: 42px;
+    padding: 0; 
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    min-width: 80px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.window .btnAccept:hover {
+    background-color: #0056b3;
+}
+
+.window .table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 15px;
+}
+
+.window table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.window th, .window td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.window th {
+    background-color: #007bff;
+    color: white;
+}
+
+.window input[type="number"], 
+.window input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s;
+    height: 35px; /* Asegúrate de que sea el mismo valor para todos */
+    line-height: normal; /* Opcional, pero puede ayudar */
+}
+
+
+.window input[type="text"]:focus,
+.window input[type="number"]:focus {
+    border-color: #5b9bd5;
+}
+
+.window .btnAddRow {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.window .btnAddRow:hover {
+    background-color: #218838;
+}
+
+.window .total {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#entryeTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#entryeTable th,
+#entryeTable td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+#entryeTable th:nth-child(2), /* Descripción */
+#entryeTable td:nth-child(2) {
+    width: 40%; /* Ajusta este valor según el diseño deseado */
+}
+
+#entryeTable th:nth-child(1), /* Producto */
+#entryeTable td:nth-child(1){
+    width: 20%;
+}
+
+#entryeTable th:nth-child(3), /* Cantidad */
+#entryeTable td:nth-child(3),
+#entryeTable th:nth-child(4), /* Precio */
+#entryeTable td:nth-child(4),
+#entryeTable th:nth-child(5), /* Importe */
+#entryeTable td:nth-child(5),
+#entryeTable th:nth-child(6), /* Acciones */
+#entryeTable td:nth-child(6) {
+    width: 12%; /* Distribuye el resto entre las demás columnas */
+}
+
+.window .action-buttons {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.window .action-buttons button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.window .action-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.window .action-buttons button.delete {
+    background-color: #ff4d4d;
+}
+
+.window .action-buttons button.delete:hover {
+    background-color: #e63939;
+}
+
+.window .btnSaveSale {
+    width: 30%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.window .btnSaveSale:hover {
+    background-color: #1e7e34;
+}
+
+.window .btnDelete {
+    flex: 3;
+    height: 35px;
+    padding: 0 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    min-width: 80px;
+}
+
+.window .btnDelete:hover {
+    background-color: #b52a37; 
+}
