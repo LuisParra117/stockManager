@@ -53,11 +53,11 @@
                         <button type="button" class="btnSearchClient" id="btnSearchClient">Buscar</button>
                     </div>
     
-                    <input type = "text" id = "txtNameClient" name = "txtNameClient" class = "txtNameClient" placeholder="Nombre" required >
-                    <input type = "text" id = "txtAPClient" name = "txtAPClient" class = "txtAPClient" placeholder="Apellido Paterno"required >
-                    <input type = "text" id = "txtAMClient" name = "txtAMClient" class = "txtAMClient" placeholder="Apellido Materno"required >
-                    <input type = "text" id = "txtRfcClient" name = "txtRfcClient" class = "txtRfcClient" placeholder="Rfc"required >
-                    <input type = "text" id = "txtPhoneClient" name = "txtPhoneClient" class = "txtPhoneClient" placeholder="Telefono" required >
+                    <input type = "text" id = "txtNameClient" name = "txtNameClient" class = "txtNameClient" placeholder="Nombre" disabled required >
+                    <input type = "text" id = "txtAPClient" name = "txtAPClient" class = "txtAPClient" placeholder="Apellido Paterno" disabled required >
+                    <input type = "text" id = "txtAMClient" name = "txtAMClient" class = "txtAMClient" placeholder="Apellido Materno" disabled required >
+                    <input type = "text" id = "txtRfcClient" name = "txtRfcClient" class = "txtRfcClient" placeholder="Rfc" disabled required >
+                    <input type = "text" id = "txtPhoneClient" name = "txtPhoneClient" class = "txtPhoneClient" placeholder="Telefono" disabled required >
                     <button type = "submit" class = "btnSaveClient" name = "btnSaveClient" id = "btnSaveClient" disabled>Grabar</button>
                 </form>
     
@@ -68,3 +68,143 @@
     </body>
 
 </html>
+
+<script>
+    var newClient;
+
+    $(function(){
+
+        $('#btnSearchClient').click(function(e){
+            e.preventDefault();
+            $('#txtNameClient').val('');
+            $('#txtAPClient').val('');
+            $('#txtAMClient').val('');
+            $('#txtRfcClient').val('');
+            $('#txtPhoneClient').val('');
+
+            if($('#txtClient').val() != ''){
+
+                $.post('/searchClient', {client:$('#txtClient').val(), action:'search'}, function(resp){
+
+                    if(resp != null){
+                        $('#txtNameClient').val(resp.name);
+                        $('#txtAPClient').val(resp.ap);
+                        $('#txtAMClient').val(resp.am);
+                        $('#txtRfcClient').val(resp.rfc);
+                        $('#txtPhoneClient').val(resp.phone);
+                        document.getElementById("btnSaveClient").disabled = false;
+                        document.getElementById("txtNameClient").disabled = false;
+                        document.getElementById("txtAPClient").disabled = false;
+                        document.getElementById("txtAMClient").disabled = false;
+                        document.getElementById("txtRfcClient").disabled = false;
+                        document.getElementById("txtPhoneClient").disabled = false;
+                        document.getElementById("btnSearchClient").disabled = true;
+                        document.getElementById("txtClient").disabled = true;
+                        newClient = false;
+                    }else{
+
+                        Swal.fire({
+                            title: "Cliente no encontrada, ¿deseas registrarlo?",
+                            showDenyButton: true,
+                            icon: 'question',
+                            confirmButtonText: "Si",
+                            backdrop: false,
+                            denyButtonText: `No`
+                            }).then((result) => {
+
+                            if (result.isConfirmed) {
+                                newClient = true;
+                                document.getElementById("btnSaveClient").disabled = false;
+                                document.getElementById("txtNameClient").disabled = false;
+                                document.getElementById("txtAPClient").disabled = false;
+                                document.getElementById("txtAMClient").disabled = false;
+                                document.getElementById("txtRfcClient").disabled = false;
+                                document.getElementById("txtPhoneClient").disabled = false;
+                                document.getElementById("btnSearchClient").disabled = true;
+                            } else if (result.isDenied) {
+                                $('#txtClient').val('');
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }else{
+
+                Swal.fire({
+                    icon: "error",
+                    title: "No dejes el campo de clave vacio",
+                    showConfirmButton: false,
+                    backdrop: false,
+                    timer: 1500
+                });
+
+            }
+
+        });
+
+        $('#btnSaveClient').click(function(e){
+            e.preventDefault();
+
+            if($('#txtClient').val() != ''){
+
+                var objClient = {
+                    client:$('#txtClient').val(),
+                    name:$('#txtNameClient').val(),
+                    ap:$('#txtAPClient').val(),
+                    am:$('#txtAMClient').val(),
+                    rfc:$('#txtRfcClient').val(),
+                    phone:$('#txtPhoneClient').val(),
+                    newClient:newClient
+                };
+
+                $.post('/saveClient', objClient, function(resp){
+
+                    if(resp.message == 'success'){
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Cliente grabado correctamente",
+                            showConfirmButton: false,
+                            backdrop: false,
+                            timer: 1500
+                        });
+
+                        $('#txtClient').val('');
+                        $('#txtNameClient').val('');
+                        $('#txtAPClient').val('');
+                        $('#txtAMClient').val('');
+                        $('#txtRfcClient').val('');
+                        $('#txtPhoneClient').val('');
+                        document.getElementById("btnSaveClient").disabled = true;
+                        document.getElementById("txtNameClient").disabled = true;
+                        document.getElementById("txtAPClient").disabled = true;
+                        document.getElementById("txtAMClient").disabled = true;
+                        document.getElementById("txtRfcClient").disabled = true;
+                        document.getElementById("txtPhoneClient").disabled = true;
+                        document.getElementById("btnSearchClient").disabled = false;
+                        document.getElementById("txtClient").disabled = false;
+
+                    }else{
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error al grabar al cliente en la base de datos",
+                            showConfirmButton: false,
+                            backdrop: false,
+                            timer: 1500
+                        });
+
+                    }
+
+                });
+
+            }
+
+        });
+    
+    });
+
+</script>

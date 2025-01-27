@@ -27,6 +27,9 @@ app.get('/', (req, res) => {
 const userRoutes = require('./controller/userSession.js'); 
 app.use('/', userRoutes);
 
+const clientRoutes = require('./controller/clientController.js'); 
+app.use('/', clientRoutes);
+
 const HOST = '0.0.0.0';
 
 // Iniciar el servidor
