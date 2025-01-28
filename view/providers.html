@@ -53,8 +53,8 @@
                         <button type="button" class="btnSearchProvider" id="btnSearchProvider">Buscar</button>
                     </div>
     
-                    <input type = "text" id = "txtNameProvider" name = "txtNameProvider" class = "txtNameProvider" placeholder="Nombre" required >
-                    <input type = "text" id = "txtPhoneProvider" name = "txtPhoneProvider" class = "txtPhoneProvider" placeholder="Telefono" required >    
+                    <input type = "text" id = "txtNameProvider" name = "txtNameProvider" class = "txtNameProvider" placeholder="Nombre" disabled required >
+                    <input type = "text" id = "txtPhoneProvider" name = "txtPhoneProvider" class = "txtPhoneProvider" placeholder="Telefono" disabled required >    
                     <button type = "submit" class = "btnSaveProvider" name = "btnSaveProvider" id = "btnSaveProvider" disabled>Grabar</button>
                 </form>
     
@@ -65,3 +65,123 @@
     </body>
 
 </html>
+
+<script>
+    var newProvider;
+
+    $(function(){
+
+        $('#btnSearchProvider').click(function(e){
+            e.preventDefault();
+            $('#txtNameProvider').val('');
+            $('#txtPhoneProvider').val('');
+
+            if($('#txtProvider').val() != ''){
+
+                $.post('/searchProvider', {provider:$('#txtProvider').val(), action:'search'}, function(resp){
+
+                    if(resp != null){
+                        $('#txtNameProvider').val(resp.name);
+                        $('#txtPhoneProvider').val(resp.phone);
+                        document.getElementById("btnSaveProvider").disabled = false;
+                        document.getElementById("txtNameProvider").disabled = false;
+                        document.getElementById("txtPhoneProvider").disabled = false;
+                        document.getElementById("btnSearchProvider").disabled = true;
+                        document.getElementById("txtProvider").disabled = true;
+                        newProvider = false;
+                    }else{
+
+                        Swal.fire({
+                            title: "Proveedor no encontrado, ¿deseas registrarlo?",
+                            showDenyButton: true,
+                            icon: 'question',
+                            confirmButtonText: "Si",
+                            backdrop: false,
+                            denyButtonText: `No`
+                            }).then((result) => {
+
+                            if (result.isConfirmed) {
+                                newProvider = true;
+                                document.getElementById("btnSaveProvider").disabled = false;
+                                document.getElementById("txtNameProvider").disabled = false;
+                                document.getElementById("txtPhoneProvider").disabled = false;
+                                document.getElementById("btnSearchProvider").disabled = true;
+                                document.getElementById("txtProvider").disabled = true;
+                            } else if (result.isDenied) {
+                                $('#txtProvider').val('');
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }else{
+
+                Swal.fire({
+                    icon: "error",
+                    title: "No dejes el campo de clave vacio",
+                    showConfirmButton: false,
+                    backdrop: false,
+                    timer: 1500
+                });
+
+            }
+
+        });
+
+        $('#btnSaveProvider').click(function(e){
+            e.preventDefault();
+
+            if($('#txtProvider').val() != ''){
+
+                var objProvider = {
+                    provider:$('#txtProvider').val(),
+                    name:$('#txtNameProvider').val(),
+                    phone:$('#txtPhoneProvider').val(),
+                    newProvider:newProvider
+                };
+
+                $.post('/saveProvider', objProvider, function(resp){
+
+                    if(resp.message == 'success'){
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Proveedor grabado correctamente",
+                            showConfirmButton: false,
+                            backdrop: false,
+                            timer: 1500
+                        });
+
+                        $('#txtProvider').val('');
+                        $('#txtNameProvider').val('');
+                        $('#txtPhoneProvider').val('');
+                        document.getElementById("btnSaveProvider").disabled = true;
+                        document.getElementById("txtNameProvider").disabled = true;
+                        document.getElementById("txtPhoneProvider").disabled = true;
+                        document.getElementById("btnSearchProvider").disabled = false;
+                        document.getElementById("txtProvider").disabled = false;
+
+                    }else{
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error al grabar al proveedor en la base de datos",
+                            showConfirmButton: false,
+                            backdrop: false,
+                            timer: 1500
+                        });
+
+                    }
+
+                });
+
+            }
+
+        });
+
+    });
+
+</script>

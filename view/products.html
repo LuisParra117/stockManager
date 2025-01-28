@@ -53,13 +53,13 @@
                         <button type="button" class="btnSearchProduct" id="btnSearchProduct">Buscar</button>
                     </div>
 
-                    <input type = "text" id = "txtDescript" name = "txtDescript" class = "txtDescript" placeholder="Descripción"required >
+                    <input type = "text" id = "txtDescript" name = "txtDescript" class = "txtDescript" placeholder="Descripción" disabled required >
     
-                    <input type = "text" id = "txtPrice" name = "txtPrice" class = "txtPrice" placeholder="Precio"required >
+                    <input type = "text" id = "txtPrice" name = "txtPrice" class = "txtPrice" placeholder="Precio" disabled required >
     
-                    <input type = "text" id = "txtCost" name = "txtCost" class = "txtCost" placeholder="Costo"required >
+                    <input type = "text" id = "txtCost" name = "txtCost" class = "txtCost" placeholder="Costo" disabled required >
     
-                    <input type = "text" id = "txtStock" name = "txtStock" class = "txtStock" placeholder="Existencia" required >
+                    <input type = "text" id = "txtStock" name = "txtStock" class = "txtStock" placeholder="Existencia" disabled required >
     
                     <button type = "submit" class = "btnSaveProduct" name = "btnSaveProduct" id = "btnSaveProduct" disabled>Grabar</button>
                 </form>
@@ -71,3 +71,137 @@
     </body>
 
 </html>
+
+<script>
+    var newProduct;
+
+    $(function(){
+
+        $('#btnSearchProduct').click(function(e){
+            e.preventDefault();
+            $('#txtDescript').val('');
+            $('#txtPrice').val('');
+            $('#txtCost').val('');
+            $('#txtStock').val('');
+
+            if($('#txtSku').val() != ''){
+
+                $.post('/searchProduct', {product:$('#txtSku').val(), action:'search'}, function(resp){
+
+                    if(resp != null){
+                        $('#txtDescript').val(resp.descript);
+                        $('#txtPrice').val(resp.price);
+                        $('#txtCost').val(resp.cost);
+                        $('#txtStock').val(resp.stock);
+                        document.getElementById("btnSaveProduct").disabled = false;
+                        document.getElementById("txtDescript").disabled = false;
+                        document.getElementById("txtPrice").disabled = false;
+                        document.getElementById("txtCost").disabled = false;
+                        document.getElementById("txtStock").disabled = false;
+                        document.getElementById("btnSearchProduct").disabled = true;
+                        document.getElementById("txtSku").disabled = true;
+                        newProduct = false;
+                    }else{
+
+                        Swal.fire({
+                            title: "Producto no encontrado, ¿deseas registrarlo?",
+                            showDenyButton: true,
+                            icon: 'question',
+                            confirmButtonText: "Si",
+                            backdrop: false,
+                            denyButtonText: `No`
+                            }).then((result) => {
+
+                            if (result.isConfirmed) {
+                                newProduct = true;
+                                document.getElementById("btnSaveProduct").disabled = false;
+                                document.getElementById("txtDescript").disabled = false;
+                                document.getElementById("txtPrice").disabled = false;
+                                document.getElementById("txtCost").disabled = false;
+                                document.getElementById("txtStock").disabled = false;
+                                document.getElementById("btnSearchProduct").disabled = true;
+                                document.getElementById("txtSku").disabled = true;
+                            } else if (result.isDenied) {
+                                $('#txtSku').val('');
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }else{
+
+                Swal.fire({
+                    icon: "error",
+                    title: "No dejes el campo de clave vacio",
+                    showConfirmButton: false,
+                    backdrop: false,
+                    timer: 1500
+                });
+
+            }
+
+        });
+
+        $('#btnSaveProduct').click(function(e){
+            e.preventDefault();
+
+            if($('#txtSku').val() != ''){
+
+                var objProduct = {
+                    product:$('#txtSku').val(),
+                    descript:$('#txtDescript').val(),
+                    price:$('#txtPrice').val(),
+                    cost:$('#txtCost').val(),
+                    stock:$('#txtStock').val(),
+                    newProduct:newProduct
+                };
+
+                $.post('/saveProduct', objProduct, function(resp){
+
+                    if(resp.message == 'success'){
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Producto grabado correctamente",
+                            showConfirmButton: false,
+                            backdrop: false,
+                            timer: 1500
+                        });
+
+                        $('#txtSku').val('');
+                        $('#txtDescript').val('');
+                        $('#txtPrice').val('');
+                        $('#txtCost').val('');
+                        $('#txtStock').val('');
+                        document.getElementById("btnSaveProduct").disabled = true;
+                        document.getElementById("txtDescript").disabled = true;
+                        document.getElementById("txtPrice").disabled = true;
+                        document.getElementById("txtCost").disabled = true;
+                        document.getElementById("txtStock").disabled = true;
+                        document.getElementById("btnSearchProduct").disabled = false;
+                        document.getElementById("txtSku").disabled = false;
+
+                    }else{
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error al grabar al producto en la base de datos",
+                            showConfirmButton: false,
+                            backdrop: false,
+                            timer: 1500
+                        });
+
+                    }
+
+                });
+
+            }
+
+        });
+
+    });
+
+</script>

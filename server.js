@@ -30,6 +30,15 @@ app.use('/', userRoutes);
 const clientRoutes = require('./controller/clientController.js'); 
 app.use('/', clientRoutes);
 
+const productRoutes = require('./controller/productController.js');
+app.use('/', productRoutes);
+
+const providerRoutes = require('./controller/providerController.js'); 
+app.use('/', providerRoutes);
+
+const userControllerRoutes = require('./controller/userController.js'); 
+app.use('/', userControllerRoutes);
+
 const HOST = '0.0.0.0';
 
 // Iniciar el servidor
